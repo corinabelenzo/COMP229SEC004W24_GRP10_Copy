@@ -1,21 +1,19 @@
 import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { useNavigate } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import List from '@material-ui/core/List'
 import { list } from './api-appointment.js'
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
-import ArrowForward from '@material-ui/icons/ArrowForward';
 import DeleteAppointment from './DeleteAppointment.jsx'
+import UpdateButton from './components/UpdateButton.jsx'
+import UpdateAppointment from './UpdateAppointment.jsx'
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -40,7 +38,9 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function ViewAppointments() {
-    const [appointments, setList] = useState([])
+    const [appointments, setList] = useState([]);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const abortController = new AbortController()
         const signal = abortController.signal
@@ -57,6 +57,10 @@ export default function ViewAppointments() {
             abortController.abort()
         }
     }, [])
+
+    const onUpdateAppointment = (appointment) => {
+        navigate('/update-appointment', { state: appointment });
+    }
 
     const removeAppointments = (appoint) => {
         const updatedAppointments = [...appointments]
@@ -91,6 +95,7 @@ export default function ViewAppointments() {
                                 primary={"Status: " + item.status}
                             />
                             <ListItemSecondaryAction>
+                              <UpdateButton appointment={item} onUpdateAppointment={onUpdateAppointment} />
                               <DeleteAppointment appointment={item} onRemove={removeAppointments}/>
                             </ListItemSecondaryAction>
                         </ListItem>

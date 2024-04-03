@@ -7,6 +7,7 @@ import Signin from './signin/Signin.jsx'
 import PrivateRoute from './signin/PrivateRoute.jsx'
 import BookAppointments from './appointment/BookAppointments.jsx'
 import ViewAppointment from "./appointment/ViewAppointments.jsx"
+import UpdateAppointment from './appointment/UpdateAppointment.jsx';
 
 function MainRouter() {
     return (
@@ -30,6 +31,14 @@ function MainRouter() {
                     element={
                         <PrivateRoute>
                             <BookAppointments />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/update-appointment"
+                    element={
+                        <PrivateRoute>
+                            <UpdateAppointment />
                         </PrivateRoute>
                     }
                 />
